@@ -16,25 +16,25 @@ export default function Login({ role }) {
       setError('Please fill in all fields');
       return;
     }
-    
+
     try {
       const res = await fetchWithAuth('/api/auth/login', {
         method: 'POST',
         body: JSON.stringify({ userId, password, role })
       });
-      
+
       const data = await res.json();
-      
+
       if (!res.ok) {
         setError(data.message || 'Login failed');
         return;
       }
-      
+
       localStorage.setItem('token', data.token);
       localStorage.setItem('userRole', data.role);
       localStorage.setItem('userId', data.id);
       localStorage.setItem('userName', data.name);
-      
+
       if (data.role === 'admin') {
         navigate('/admin');
       } else {
@@ -65,9 +65,9 @@ export default function Login({ role }) {
               <div style={{ position: 'absolute', left: '12px', top: '12px', color: 'var(--text-muted)' }}>
                 <User size={18} />
               </div>
-              <input 
-                type="text" 
-                className="form-control" 
+              <input
+                type="text"
+                className="form-control"
                 style={{ paddingLeft: '40px', width: '100%' }}
                 placeholder="Enter your ID"
                 value={userId}
@@ -82,9 +82,9 @@ export default function Login({ role }) {
               <div style={{ position: 'absolute', left: '12px', top: '12px', color: 'var(--text-muted)' }}>
                 <Lock size={18} />
               </div>
-              <input 
-                type="password" 
-                className="form-control" 
+              <input
+                type="password"
+                className="form-control"
                 style={{ paddingLeft: '40px', width: '100%' }}
                 placeholder="••••••••"
                 value={password}
@@ -106,16 +106,6 @@ export default function Login({ role }) {
           ) : (
             <Link to="/admin/login" style={{ color: 'var(--text-muted)', textDecoration: 'none' }}>Switch to Admin Login</Link>
           )}
-          <button 
-            onClick={async () => {
-              const res = await fetchWithAuth('/api/auth/setup', { method: 'POST' });
-              const data = await res.json();
-              toast.success(data.message);
-            }}
-            style={{ background: 'none', border: 'none', color: 'var(--text-muted)', fontSize: '0.7rem', cursor: 'pointer', textDecoration: 'underline', marginTop: '16px' }}
-          >
-            System Setup (Reset Default Accounts)
-          </button>
         </div>
       </div>
     </div>
