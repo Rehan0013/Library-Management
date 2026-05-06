@@ -60,7 +60,7 @@ export default function Login({ role }) {
 
         <form onSubmit={handleLogin}>
           <div className="form-group">
-            <label className="form-label">User ID / Username</label>
+            <label className="form-label">Username</label>
             <div style={{ position: 'relative' }}>
               <div style={{ position: 'absolute', left: '12px', top: '12px', color: 'var(--text-muted)' }}>
                 <User size={18} />
@@ -69,7 +69,7 @@ export default function Login({ role }) {
                 type="text"
                 className="form-control"
                 style={{ paddingLeft: '40px', width: '100%' }}
-                placeholder="Enter your ID"
+                placeholder="Enter your Username"
                 value={userId}
                 onChange={(e) => setUserId(e.target.value)}
               />

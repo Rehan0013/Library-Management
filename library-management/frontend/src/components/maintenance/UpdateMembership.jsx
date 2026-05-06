@@ -6,7 +6,7 @@ import { fetchWithAuth } from '../../services/api';
 export default function UpdateMembership() {
   const [search, setSearch] = useState('');
   const [members, setMembers] = useState([]);
-  const [formData, setFormData] = useState({ _id: '', memNumber: '', startDate: '', endDate: '', extension: 'six_months', remove: false });
+  const [formData, setFormData] = useState({ _id: '', memNumber: '', firstName: '', lastName: '', startDate: '', endDate: '', extension: 'six_months', remove: false });
 
   const fetchMembers = async () => {
     try {
@@ -24,6 +24,8 @@ export default function UpdateMembership() {
     setFormData({
       _id: mem._id,
       memNumber: mem.membershipNumber,
+      firstName: mem.firstName || '',
+      lastName: mem.lastName || '',
       startDate: mem.startDate?.split('T')[0] || '',
       endDate: mem.endDate?.split('T')[0] || '',
       extension: mem.membershipType,
@@ -67,6 +69,8 @@ export default function UpdateMembership() {
       const res = await fetchWithAuth('/api/memberships/' + targetId, {
         method: 'PUT',
         body: JSON.stringify({
+          firstName: formData.firstName || undefined,
+          lastName: formData.lastName || undefined,
           startDate: formData.startDate || undefined,
           endDate: formData.endDate || undefined,
           membershipType: formData.extension
@@ -110,6 +114,8 @@ export default function UpdateMembership() {
           
           {formData._id && (
             <div className="animate-in">
+              <div className="form-group"><label className="form-label">Member First Name</label><input type="text" className="form-control" value={formData.firstName} onChange={e => setFormData({...formData, firstName: e.target.value})} /></div>
+              <div className="form-group"><label className="form-label">Member Last Name</label><input type="text" className="form-control" value={formData.lastName} onChange={e => setFormData({...formData, lastName: e.target.value})} /></div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
                 <div className="form-group"><label className="form-label">New Start Date</label><input type="date" className="form-control" value={formData.startDate} onChange={e => setFormData({...formData, startDate: e.target.value})} /></div>
                 <div className="form-group"><label className="form-label">New End Date</label><input type="date" className="form-control" value={formData.endDate} onChange={e => setFormData({...formData, endDate: e.target.value})} /></div>
